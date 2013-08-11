@@ -1,0 +1,112 @@
+/* Begin Ad 1 */
+
+#ad-1 {
+	width: 720px;
+	height: 300px;
+	margin: 40px auto 0;
+	background-image: url(../images/ad-1/background.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	position: relative;
+	box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+#ad-1 ul#water{
+}
+	#ad-1 li#water-back {
+		width: 1200px;
+		height: 84px;
+		background-image: url(../images/ad-1/water-back.png);
+		background-repeat: repeat-x;
+		z-index: 1;
+		position: absolute;
+		bottom: 10px;
+		left: -20px;
+		-webkit-animation: water-back-animation 3s infinite ease-in-out;
+		animation: water-back-animation 3s infinite ease-in-out;
+	}
+	#ad-1 li#water-front {
+		width: 1200px;
+		height: 158px;
+		background-image: url(../images/ad-1/water-front.png);
+		background-repeat: repeat-x;
+		z-index: 3;
+		position: absolute;
+		bottom: -70px;
+		left:-30px;
+		-webkit-animation: water-front-animation 2s infinite ease-in-out;
+		animation: water-front-animation 2s infinite ease-in-out;
+	}
+
+#ad-1 #clouds {
+	position: absolute;
+	top: 0px;
+	z-index: 0;
+}
+#ad-1 #cloud-group-1 {
+	width:720px;
+	position: absolute;
+	left:0px;
+	-webkit-animation: cloud-group-1-animation 30s infinite linear;
+	animation: cloud-group-1-animation 30s infinite linear;
+}
+#ad-1 #cloud-group-2 {
+	width: 720px;
+	position: absolute;
+	left: 720px;
+	-webkit-animation: cloud-group-2-animation 30s infinite linear;
+	animation: cloud-group-2-animation 30s infinite linear;
+}
+	#ad-1 .cloud-1 {
+		width: 172px;
+		height: 121px;
+		background-image: url(../images/ad-1/cloud-1.png);
+		position: absolute;
+		top: 10px;
+		left: 40px;
+	}
+	#ad-1 .cloud-2 {
+		width: 121px;
+		height: 75px;
+		background-image: url(../images/ad-1/cloud-2.png);
+		position: absolute;
+		top: -25px;
+		left: 300px;
+	}
+	#ad-1 .cloud-3 {
+		width: 132px;
+		height: 105px;
+		background-image: url(../images/ad-1/cloud-3.png);
+		position: absolute;
+		top: -5px;
+		left: 530px;
+	}
+	
+/* WebKit Animations */
+
+@-webkit-keyframes cloud-group-1-animation {
+	0%       {left: 0px;}
+	99.9999%   {left: -720px;}
+	100%     {left: 0px;}
+}
+@-webkit-keyframes cloud-group-2-animation {
+	0%       {left: 720px;}
+	99.9999%   {left: 0px;}
+	100%     {left: 720px;}
+}
+@-webkit-keyframes water-back-animation {
+	0%   {bottom: 10px; left: -20px;}
+	25%  {bottom: 8px; left: -22px;}
+	70%  {bottom: 12px; left: -24px;}
+	100% {bottom: 9px; left: -20px;}
+}
+@-webkit-keyframes water-front-animation {
+	0%   {bottom: -70px; left: -30px;}
+	25%  {bottom: -68px; left: -32px;}
+	70%  {bottom: -72px; left: -34px;}
+	100% {bottom: -69px; left: -30px;}
+}
+
+
+/* End Ad 1 */

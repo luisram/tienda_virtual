@@ -62,7 +62,7 @@ $valido=true;
 					<?php
                     if (!isset($_SESSION["usuario"])) {
 					echo "<input type='submit' name='submit' value='Entrar' class='bt_login' />";
-					 echo "<a href='nuevo_usuario.php'>Registrate ahora!</a>";
+					 echo "<a href='nuevo_usuario.php'>Registrarse ahora!</a>";
                     }
                     else{
                         echo "<a href='logout.php'> Cerrar Sesion</a>";

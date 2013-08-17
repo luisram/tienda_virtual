@@ -3,29 +3,9 @@
 session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 if(!isset($_SESSION["usuario"])){
-   //  sqlsrv_select_db($database_tienda) or die ("No se encuentra la base de datos especificada");
-if (isset($_POST['log'])){
-$nickname=$_POST['log'];
-$contrasena=$_POST['pwd'];
-$valido=true;
- $consulta2="SELECT * FROM usuario where nickname='$nickname' AND contrasena='$contrasena'";
-         $result=sqlsrv_query($consulta2) or die (sqlsrv_error());
-         $filasn= sqlsrv_num_rows($result);
-         if ($filasn<=0 || isset($_GET['nologin']) ){
-             
-             $valido=false;
-         }else{
-        $rowsresult=sqlsrv_fetch_array($result);          
-        $_SESSION['idusuario']= $rowsresult['idusuario'];
-             $valido=true;
-             //guardamos en sesion el carnet del usuario ya que ese es el identificados en la base de datos
-             $_SESSION["usuario"]=$nickname;
-             header("location:cat_rams.php?login=true");
-				echo '<script type=\"text/javascript\">alert(\"Gracias Por Registrarse\");</script>';
+  $_SESSION['page_return']="cat_rams.php";
 
-         }
-}
-
+     
 	}else{
 		$_SESSION["usuario"];
 		
@@ -125,7 +105,7 @@ $queryString_listado = sprintf("&totalRows_listado=%d%s", $totalRows_listado, $q
 			</div>
 			<div class="left">
 				<!-- Login Form -->
-				<form class="clearfix" action="cat_rams.php" method="post">
+				<form class="clearfix" action="login.php" method="post">
 					<h1>Miembros</h1>
 					<label class="grey" for="log">Usuario:</label>
 					<input class="field" type="text" name="log" id="log" value="" size="23" />

@@ -10,9 +10,10 @@ $fecha_final=$_SESSION["dia2"]."-".$_SESSION["mes2"]."-".$_SESSION["anio2"];
 $total_disponibles=$_SESSION['total_disponibles'];
 $valor=$_SESSION['valor'];
 $id_cliente=$_SESSION['id'];
+$tipo_cupon=$_SESSION['tipo_cupon'];
 
-echo $valor;
-echo $total_disponibles;
+//echo $valor;
+//echo $total_disponibles;
 if ($id_cliente!=0) {
 	$Q_cliente="SELECT * FROM cliente";
          $result_Q_cliente=sqlsrv_query($conn, $Q_cliente) or die (sqlsrv_errors());
@@ -29,19 +30,19 @@ $re= sqlsrv_query($conn, "EXEC msdb.dbo.sp_send_dbmail  @profile_name = '$pro',
    @body = '$bod',
    @subject = '$sub';");
 
-  $inser_cupon="INSERT INTO cupones_enviados (id_cliente, id_cupon) 
- VALUES ('$id_cliente','$codigo')";
-         sqlsrv_query($conn, $inser_cupon) or die (sqlsrv_errors());
-         $DS=0;
-         $consulta4="INSERT INTO cupones (codigo_cupon,estado_cupon,monto_cupon,fecha_inicio,fecha_final,cantidad_disponible,nombre) 
- VALUES ('$codigo','$estado','$valor','$fecha_inicio','$fecha_final','$DS','$nombre_cupon')";
+ $re2= sqlsrv_query($conn, "EXEC guardar_cupones_enviados  @id_cliente = $id_cliente, @cupon = $codigo;");
+ 
+         $DS=1;
+         $CD=0;
+         $consulta4="INSERT INTO cupones (codigo_cupon,estado_cupon,monto_cupon,fecha_inicio,fecha_final,cantidad_disponible,nombre,cantidad_canje,tipo_cupon) 
+ VALUES ('$codigo','$estado','$valor','$fecha_inicio','$fecha_final','$CD','$nombre_cupon','$DS','$tipo_cupon')";
          sqlsrv_query($conn, $consulta4) or die (sqlsrv_errors());
 
 }else
 {
 
-$consulta="INSERT INTO cupones (codigo_cupon,estado_cupon,monto_cupon,fecha_inicio,fecha_final,cantidad_disponible,nombre) 
- VALUES ('$codigo','$estado','$valor','$fecha_inicio','$fecha_final','$total_disponibles','$nombre_cupon')";
+$consulta="INSERT INTO cupones (codigo_cupon,estado_cupon,monto_cupon,fecha_inicio,fecha_final,cantidad_disponible,nombre,cantidad_canje,tipo_cupon) 
+ VALUES ('$codigo','$estado','$valor','$fecha_inicio','$fecha_final','$total_disponibles','$nombre_cupon','$total_disponibles','$tipo_cupon')";
          sqlsrv_query($conn, $consulta) or die (sqlsrv_errors());
 
 
@@ -53,6 +54,6 @@ $consulta="INSERT INTO cupones (codigo_cupon,estado_cupon,monto_cupon,fecha_inic
          $_SESSION['total_disponibles']="";
          $_SESSION['codigo']="";
          $_SESSION['nombre_cupon']="";
-         header("location:cupones.php");
+        // header("location:cupones.php");
 //
 ?>

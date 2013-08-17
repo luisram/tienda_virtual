@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION["usuario"])){
-	
+	 $_SESSION['page_return']="index.php";
 	}else{
 		$_SESSION["usuario"];
 		
@@ -41,7 +41,7 @@ function comparar_contra() {
 			</div>
 			<div class="left">
 				<!-- Login Form -->
-				<form class="clearfix" action="index.php" method="post">
+				<form class="clearfix" action="login.php" method="post">
 					<h1>Miembros</h1>
 					<label class="grey" for="log">Usuario:</label>
 					<input class="field" type="text" name="log" id="log" value="" size="23" />
@@ -100,10 +100,10 @@ function comparar_contra() {
                 <div class="FR"></div>
         </div>
         <div id="registro" style="clear:both;">
-<p><img src="imagenes/miembro.gif" style="float:left;"/></p>
-<div class="registro_caja">
+ <p><img src="imagenes/miembro.gif" style="float:left;"/></p>
+<div class="registro_caja"align="center">
 <br>
-<p align="center">Llene el siguiente formulario para poder ser miembro en Yume Tec</p>
+<p align="center">Llene el siguiente formulario para poder ser miembro en INTERCONNECT</p>
 <br>
 <form action="registro.php" method="post">
 <table width="100%" border="2">
@@ -126,6 +126,14 @@ function comparar_contra() {
   <tr>
     <td height="30" align="right">Tel&eacute;fono:</td>
     <td align="left"><input type="text" name="telefono" required /></td>
+  </tr>
+  <tr>
+    <td height="30" align="right">G&eacute;nero:</td>
+    <td align="left"> <select name="genero">
+ 
+      <option value='M'>Masculino</option>
+     <option value='F'>Femenino</option>
+</select></td>
   </tr>
   <tr>
     <td height="30"  align="right">Cumplea&ntilde;os:</td>
@@ -211,8 +219,8 @@ function comparar_contra() {
 <p align="center"><input type="submit" name="registrar" value="REGISTRARSE"   />
 </form>
 </div>
-<p><img src="imagenes/miembro_registrado.gif" style="float:left;"/></p>
-<div class="registro_caja">
+<!--<p><img src="imagenes/miembro_registrado.gif" style="float:left;"/></p>-->
+<!--<div class="registro_caja">
 <br>
 <p align="center">Ingrese usando el siguiente formulario</p>
 <br>
@@ -229,7 +237,7 @@ function comparar_contra() {
 </table>
 <p align="center"><input type="submit" name="entrar" value="ENTRAR"   />
 </form>
-</div>
+</div>-->
 </div>
         </div>
 

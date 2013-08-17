@@ -6,9 +6,11 @@ require_once('../Connections/tienda.php');
 $nombre_cupon= $_SESSION['nombre_cupon'];       
 $codigo = $_SESSION['codigo'];
 $estado = $_SESSION['estado'];
+$tipo_cupon = $_SESSION['tipo_cupon'];
 $total_disponibles = $_SESSION['total_disponibles'];
 $valor = $_SESSION['valor'];
 $ectado_radio1="checked";
+
 if($estado=="activo")
 {
   $ectado_radio1="checked";
@@ -16,6 +18,16 @@ if($estado=="activo")
 if($estado=="inactivo")
 {
   $ectado_radio2="checked";
+}
+/////
+$tipo_cupon1="checked";
+if($tipo_cupon=="all")
+{
+  $tipo_cupon1="checked";
+}
+if($tipo_cupon=="only")
+{
+  $tipo_cupon2="checked";
 }
 
 ?>
@@ -69,7 +81,7 @@ if($estado=="inactivo")
 </form>
 <!--CONTENIDO AQUI-->
  <form name="form1" method="POST" action="generar_cupon.php">
-<div class="FL"><img src="../img/carrito.jpg"/></div>
+<div class="FL"><!--<img src="../img/carrito.jpg"/>--></div>
    <table width="90%"  height="90%"  align="center">
    <tr align="center" style="background-color:#008fbe; color:#fff">
     <td align="right">Nombre:</td>
@@ -113,6 +125,13 @@ if($estado=="inactivo")
     <td align="left"><input type="radio" name="estado" value="activo" <?php echo $ectado_radio1; ?> />activo
 
 <input type="radio" name="estado" value="inactivo"  <?php echo $ectado_radio2; ?>/>inactivo</td>
+    
+  </tr> 
+  <tr align="center" style="background-color:#008fbe; color:#fff">
+    <td align="right">Tipo de cupon:</td>
+    <td align="left"><input type="radio" name="tipo_cupon" value="all" <?php echo $tipo_cupon1; ?> />Todo publico
+
+<input type="radio" name="tipo_cupon" value="only"  <?php echo $tipo_cupon2; ?>/>Un solo cliente</td>
     
   </tr> 
 <tr  style="background-color:#008fbe; color:#fff">

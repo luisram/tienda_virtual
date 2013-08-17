@@ -16,6 +16,9 @@ $_SESSION['codigo'] = " ";
 if(isset($_POST['estado'])){
 	$_SESSION['estado'] = $_POST['estado'];
 }
+if(isset($_POST['tipo_cupon'])){
+	$_SESSION['tipo_cupon'] = $_POST['tipo_cupon'];
+}
 
 if(isset($_POST['dia1'])){
 	$_SESSION['dia1'] = $_POST['dia1'];

@@ -4,32 +4,15 @@ error_reporting(E_ALL ^ E_NOTICE);
 //manejamos en sesion el nombre del usuario que se ha logeado
 require_once('Connections/tienda.php'); 
 
+
+
 if(!isset($_SESSION["usuario"])){
+    $_SESSION['page_return']="carrito.php";
 
-    // sqlsrv_select_db($database_tienda) or die ("No se encuentra la base de datos especificada");
-if (isset($_POST['log'])){
-$nickname=$_POST['log'];
-$contrasena=$_POST['pwd'];
-$valido=true;
- $consulta2="SELECT * FROM cliente where usuario='$nickname' AND contrasena='$contrasena'";
-         $result=sqlsrv_query($conn, $consulta2) or die (sqlsrv_errors());
-         $filasn= sqlsrv_num_rows($result);
-         //$filasn<=0 || 
-         if (isset($_GET['nologin']) ){
-             
-             $valido=false;
-         }else{
-        $rowsresult=sqlsrv_fetch_array($result);          
-        $_SESSION['idusuario']= $rowsresult['id_cliente'];
-             $valido=true;
-             //guardamos en sesion el carnet del usuario ya que ese es el identificados en la base de datos
-             $_SESSION["usuario"]=$nickname;
-             header("location:carrito.php?login=true");
-				echo '<script type=\"text/javascript\">alert(\"Gracias Por Registrarse\");</script>';
 
-         }
-}
-
+         
+      
+                
 	}else{
 		$_SESSION["usuario"];
     $_SESSION["descuento"];
@@ -111,7 +94,7 @@ $_SESSION['carrito']=$compras;
 			</div>
 			<div class="left">
 				<!-- Login Form -->
-				<form class="clearfix" action="carrito.php" method="post">
+				<form class="clearfix" action="login.php" method="post">
 					<h1>Miembros</h1>
 					<label class="grey" for="log">Usuario:</label>
 					<input class="field" type="text" name="log" id="log" value="" size="23" />

@@ -23,28 +23,67 @@ if ($id_cliente!=0) {
 
 $pro="INTERCONNECT";
 $reci=$rowsresult_Q_cliente['email'];
-$bod="FELICIDADES ".$nombre." HA SIDO ACREEDOR DE UN CUPON CANJEABLE EN INTERCONNEC EN SU PROXIMA COMPRA INGRESANDO SU NUMERO DE CUPON AL MOMENTO DE REALIZAR SU PAGO. CUPON NUMERO: <BR>".$codigo."CUPON VALIDO ANTES DE:".$fecha_final;
+$bod="<html><h2><font color=red><b>FELICIDADES</b></font></h2><h3><br> ".$nombre." HA SIDO ACREEDOR DE UN CUPON CANJEABLE EN INTERCONNEC EN SU PROXIMA COMPRA INGRESANDO SU NUMERO DE CUPON AL MOMENTO DE REALIZAR SU PAGO. CUPON NUMERO: <font color=red><b>".$codigo."</b></font> CUPON VALIDO ANTES DE:".$fecha_final."</h3></html>";
 $sub="PROMOCIONES INTERCONNECT";
 $re= sqlsrv_query($conn, "EXEC msdb.dbo.sp_send_dbmail  @profile_name = '$pro',
    @recipients = '$reci',
    @body = '$bod',
+   @body_format = 'HTML';
    @subject = '$sub';");
 
  $re2= sqlsrv_query($conn, "EXEC guardar_cupones_enviados  @id_cliente = $id_cliente, @cupon = $codigo;");
  
          $DS=1;
          $CD=0;
+         $call_p = "{call guardar_cupon( ? ,?, ? ,? ,? ,? ,? ,? ,? ,?,? )}";
+ $msg="                                             ";
+ $ctrl=0;   
+    $parametros = array( 
+                 array($codigo, SQLSRV_PARAM_IN),
+                 array($estado, SQLSRV_PARAM_IN),
+                 array($valor, SQLSRV_PARAM_IN),
+                 array($fecha_inicio, SQLSRV_PARAM_IN),
+                 array($fecha_final, SQLSRV_PARAM_IN),
+                 array($CD, SQLSRV_PARAM_IN),
+                 array($nombre_cupon, SQLSRV_PARAM_IN),
+                 array($DS, SQLSRV_PARAM_IN),
+                 array($tipo_cupon, SQLSRV_PARAM_IN),
+                 array($msg, SQLSRV_PARAM_OUT),
+                 array($ctrl, SQLSRV_PARAM_OUT)
+               );
+$ejecuta_call_p=sqlsrv_query( $conn, $call_p, $parametros); 
+/* Execute the query. 
+ //$ejecuta_call_p=sqlsrv_query( $conn, $call_p, $parametros);
+*/
+/*
+
          $consulta4="INSERT INTO cupones (codigo_cupon,estado_cupon,monto_cupon,fecha_inicio,fecha_final,cantidad_disponible,nombre,cantidad_canje,tipo_cupon) 
  VALUES ('$codigo','$estado','$valor','$fecha_inicio','$fecha_final','$CD','$nombre_cupon','$DS','$tipo_cupon')";
          sqlsrv_query($conn, $consulta4) or die (sqlsrv_errors());
-
+*/
 }else
 {
-
+ $call_p = "{call guardar_cupon( ? ,?, ? ,? ,? ,? ,? ,? ,? ,?,? )}";
+ $msg="                                             ";
+ $ctrl=0;   
+    $parametros2 = array( 
+                 array($codigo, SQLSRV_PARAM_IN),
+                 array($estado, SQLSRV_PARAM_IN),
+                 array($valor, SQLSRV_PARAM_IN),
+                 array($fecha_inicio, SQLSRV_PARAM_IN),
+                 array($fecha_final, SQLSRV_PARAM_IN),
+                 array($total_disponibles, SQLSRV_PARAM_IN),
+                 array($nombre_cupon, SQLSRV_PARAM_IN),
+                 array($total_disponibles, SQLSRV_PARAM_IN),
+                 array($tipo_cupon, SQLSRV_PARAM_IN),
+                 array($msg, SQLSRV_PARAM_OUT),
+                 array($ctrl, SQLSRV_PARAM_OUT)
+               );
+$ejecuta_call_p=sqlsrv_query( $conn, $call_p, $parametros2); /*
 $consulta="INSERT INTO cupones (codigo_cupon,estado_cupon,monto_cupon,fecha_inicio,fecha_final,cantidad_disponible,nombre,cantidad_canje,tipo_cupon) 
  VALUES ('$codigo','$estado','$valor','$fecha_inicio','$fecha_final','$total_disponibles','$nombre_cupon','$total_disponibles','$tipo_cupon')";
          sqlsrv_query($conn, $consulta) or die (sqlsrv_errors());
-
+*/
 
 }
 
@@ -54,6 +93,6 @@ $consulta="INSERT INTO cupones (codigo_cupon,estado_cupon,monto_cupon,fecha_inic
          $_SESSION['total_disponibles']="";
          $_SESSION['codigo']="";
          $_SESSION['nombre_cupon']="";
-        // header("location:cupones.php");
+         header("location:cupones.php");
 //
 ?>

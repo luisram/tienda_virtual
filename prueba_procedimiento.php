@@ -87,11 +87,107 @@ $n_cupon="1532980";
    echo $monto_cupon;
    echo $fecha_final;
    echo $ctrl;*/
+
+
+   /*
    $cuponid=8;
    $ticket="tr";
     $re3= sqlsrv_query($conn, "EXEC guardar_canje_cupon  @id_cupon = '$cuponid', @ticket = '$ticket';");
     
-echo sqlsrv_errors();
+echo sqlsrv_errors();*//*
+$codigo="1111111111111",
+$estado="ACTIVO",
+$valor="12",
+$fecha_inicio="2222222222",
+$fecha_final="2222222222",
+
+//$total_disponibles, SQLSRV_PARAM_IN),
+ $nombre_cupon="DESCUENTO",
+
+ $tipo_cupon="only",
+ $msg="                                         ",
+  $ctrl, SQLSRV_PARAM_OUT)
+      $DS=1;
+         $CD=0;
+         $call_p = "{call guardar_cupon( ? ,?, ? ,? ,? ,? ,? ,? ,? ,?,? )}";
+ 
+    $parametros = array( 
+                 array($codigo, SQLSRV_PARAM_IN),
+                 array($estado, SQLSRV_PARAM_IN),
+                 array($valor, SQLSRV_PARAM_IN),
+                 array($fecha_inicio, SQLSRV_PARAM_IN),
+                 array($fecha_final, SQLSRV_PARAM_IN),
+                 array($CD, SQLSRV_PARAM_IN),
+                 array($nombre_cupon, SQLSRV_PARAM_IN),
+                 array($DS, SQLSRV_PARAM_IN),
+                 array($tipo_cupon, SQLSRV_PARAM_IN),
+                 array($msg, SQLSRV_PARAM_OUT),
+                 array($ctrl, SQLSRV_PARAM_OUT)
+               );
+$ejecuta_call_p=sqlsrv_query( $conn, $call_p, $parametros); *//*
+  $monto_cupon=0;               
+ ///////////////////////////////////////////////////////////////////////////
+  $total=503;
+ $call_p_2 = "{call calcula_descuento( ? ,? )}";
+
+   $parametros2 = array( 
+                 array($total, SQLSRV_PARAM_IN),
+                 array($monto_cupon, SQLSRV_PARAM_OUT)
+               );
+
+
+$ejecuta_call_p=sqlsrv_query( $conn, $call_p_2, $parametros2); 
+echo $total;
+echo $monto_cupon;*/
+
+ $pro="INTERCONNECT";
+ 
+$bod="<html>Confirmaci&oacute;n del env&iacute;o
+<h3>   HOLA ".$nombre_t." </h2> 
+ <P>Gracias por hacer compras con nosotros. Pensamos que le gustar&iacute;a saber que enviamos su art&iacute;culo, 
+ y que esto completa el pedido. Su pedido est&aacute; en camino, y ya no se puede cambiar.</P> 
+ DETALLES DEL ENVIO
+
+<hr align='left'size='1' width='800' color='red' noshade>
+<table>
+<tr>
+".$detalle_compra."
+
+</tr>
+<tr align='right'>
+".$total."
+
+</tr>
+
+</table>
+
+</html>";
+$sub="INTERCONNECT";
+$re= sqlsrv_query($conn, "EXEC msdb.dbo.sp_send_dbmail  @profile_name = '$pro', @recipients = 'esmeraldakmc@hotmail.com',
+   @body = 'hola',@body_format = 'HTML', @subject = '$sub';");
+        //echo $inser_cupon;
+
+
 
 ?>
 
+<html>Confirmaci&oacute;n del env&iacute;o
+<h3>   HOLA ".$nombre_t." </h2> 
+ <P>Gracias por hacer compras con nosotros. Pensamos que le gustar&iacute;a saber que enviamos su art&iacute;culo, 
+ y que esto completa el pedido. Su pedido est&aacute; en camino, y ya no se puede cambiar.</P> 
+ DETALLES DEL ENVIO
+
+<hr align='left'size='1' width='800' color='red' noshade>
+<table>
+<tr>
+".$detalle_compra."
+
+</tr>
+<tr align='right'>
+".$total."
+
+</tr>
+
+</table>
+
+</html>

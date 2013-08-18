@@ -66,7 +66,7 @@ $ejecuta_call_p=sqlsrv_query( $conn, $call_p, $parametros);
              $_SESSION["usuario"]=$user_name;
              //echo $id_cliente;
             // echo $user_name;
-           //header("location:".$_SESSION['page_return']."");# code...
+           header("location:".$_SESSION['page_return']."");# code...
        }else
        {
 

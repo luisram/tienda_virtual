@@ -54,25 +54,7 @@ if($tipo_cupon=="only")
     <a href="#"> Promociones </a>
     <ul>
       <li><a href="cupones.php"> Cupones </a></li>
-      <li><a href="productos.php"> Promociones </a></li>
       
-    </ul>
-  </li>
-   <li>
-    <a href="#"> Clientes </a>
-    <ul>
-      <li><a href=""> Admin Clientes </a></li>
-      <li><a href=""> Detalles </a></li>
-      
-    </ul>
-  </li>
-    <li>
-    <a href="#"> Catalogo </a>
-    <ul>
-      <li><a href=""> Categorias </a></li>
-      <li><a href="p"> Productos </a></li>
-      
-    </ul>
   </li>
 
 </ul>
@@ -149,13 +131,7 @@ if($tipo_cupon=="only")
     
     
   </tr>
-  <tr  style="background-color:#008fbe; color:#fff">
-    <td align="right">Codigo:</td>
-    <td align="left"><input type="text" name="codigo" value="<?php echo $codigo;?>" disabled />
-      <input type="submit" value="Generar"></td>
-      
-    
-  </tr>
+  
   <tr align="center" style="background-color:#008fbe; color:#fff">
     <td align="right">Valido desde:</td>
     <td align="left"><select name="dia1">
@@ -254,6 +230,13 @@ Hasta:<select name="dia2">
       
   ?>
 </select></td>
+    
+  </tr>
+  <tr  style="background-color:#008fbe; color:#fff">
+    <td align="right">Codigo:</td>
+    <td align="left"><input type="text" name="codigo" value="<?php echo $codigo;?>" disabled />
+      <input type="submit" value="Generar"></td>
+      
     
   </tr>
    </table>

@@ -21,6 +21,8 @@ for($i=0;$i<=count($compras)-1;$i++){
   sqlsrv_query($conn, "EXEC guardar_compra  @id_cliente = '$id_cliente', @id_producto = '$id_producto', @cantidad = '$cantidad',
    @fecha = '$fecha', @ticket = '$ticket';");
 
+
+$detalle_compra.=$compras[$i]['nombre']."       ".$compras[$i]['cantidad']."       ".$compras[$i]['precio'];
          }
 
   }
@@ -32,9 +34,22 @@ for($i=0;$i<=count($compras)-1;$i++){
  $codigo_cupon="          ";
  $email="                             ";
  $nombre="                  ";
- $apellido="                  ";
- $monto_cupon="10";
- $regla="     ";
+ $apellido="  
+                 ";
+  $monto_cupon=0;               
+ ///////////////////////////////////////////////////////////////////////////
+ $call_p_2 = "{call calcula_descuento( ? ,? )}";
+
+   $parametros2 = array( 
+                 array($total, SQLSRV_PARAM_IN),
+                 array($monto_cupon, SQLSRV_PARAM_OUT)
+               );
+
+
+$ejecuta_call_p=sqlsrv_query( $conn, $call_p_2, $parametros2); 
+ 
+ ///////////////////////////////////////////////////////////////////////////
+ $regla=0;
 
 
 
@@ -57,15 +72,30 @@ $ejecuta_call_p=sqlsrv_query( $conn, $call_p, $parametros);
          $nombre_t=strtoupper($apellido).", ".strtoupper($nombre);
 
 //if ($total > $regla and $cantidad_disponible>0) { 
-if ($total > $regla) {
+         /////////////////////////////////////envio del detalle de la compra////////////////////////////////////
+         $pro="INTERCONNECT";
+ 
+$bod2="<html>Confirmaci&oacute;n del env&iacute;o <h3>   HOLA ".$nombre_t." </h2> <P>Gracias por hacer compras con nosotros. Pensamos que le gustar&iacute;a saber que enviamos su art&iacute;culo, y que esto completa el pedido. Su pedido est&aacute; en camino, y ya no se puede cambiar.</P>  DETALLES DEL ENVIO</html>";
+$reci=$email;
+$sub="DETALLE DE LA COMPRA INTERCONNECT";
+$re2= sqlsrv_query($conn, "EXEC msdb.dbo.sp_send_dbmail  @profile_name = '$pro', @recipients = '$reci',
+   @body = '$bod2',@body_format = 'HTML', @subject = '$sub';");
+        //echo $inser_cupon;
+
+
+
+
+
+         /////////////////////////////////////////////////
+if ($total > $regla and $monto_cupon!=0) {
 
   
 $pro="INTERCONNECT";
 $reci=$email;
-$bod="FELICIDADES ".$nombre_t." HA SIDO ACREEDOR DE UN CUPON POR SU COMPRA DE: $".$total." CANJEABLE EN INTERCONNEC EN SU PROXIMA COMPRA INGRESANDO SU NUMERO DE CUPON AL MOMENTO DE REALIZAR SU PAGO. CUPON NUMERO: <BR>".$codigo_cupon."CUPON VALIDO ANTES DE:".$fecha_final;
+$bod="<html><h2><font color=red><b>FELICIDADES</b></font></h2><h3><br> ".$nombre_t.", HA SIDO ACREEDOR DE UN CUPON POR SU COMPRA DE: $".$total." CANJEABLE EN INTERCONNEC EN SU PROXIMA COMPRA INGRESANDO SU NUMERO DE CUPON AL MOMENTO DE REALIZAR SU PAGO. CUPON NUMERO: <font color=red><b>".$codigo_cupon." </b></font>CUPON VALIDO ANTES DE:".$fecha_final."</h3></html>";
 $sub="PROMOCIONES INTERCONNECT";
 $re= sqlsrv_query($conn, "EXEC msdb.dbo.sp_send_dbmail  @profile_name = '$pro', @recipients = '$reci',
-   @body = '$bod', @subject = '$sub';");
+   @body = '$bod',@body_format = 'HTML', @subject = '$sub';");
 
   $re2= sqlsrv_query($conn, "EXEC guardar_cupones_enviados  @id_cliente = $id_cliente, @cupon = $codigo_cupon;");
          //echo $inser_cupon;
@@ -93,5 +123,5 @@ $re= sqlsrv_query($conn, "EXEC msdb.dbo.sp_send_dbmail  @profile_name = '$pro', 
 
 $_SESSION['carrito']=NULL;
 $total=0;
-//header("location:../index.php")
+header("location:../index.php")
 ?>

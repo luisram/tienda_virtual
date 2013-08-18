@@ -20,24 +20,9 @@
     <a href="#"> Promociones </a>
     <ul>
       <li><a href="cupones.php"> Cupones </a></li>
-      <li><a href="productos.php"> Promociones </a></li>
-      
+        
     </ul>
-  </li>
-   <li>
-    <a href="#"> Clientes </a>
-    <ul>
-      <li><a href="categoria.php"> Admin Clientes </a></li>
-      <li><a href="productos.php"> Detalles </a></li>
-      
-    </ul>
-  </li>
-    <li>
-    <a href="#"> Catalogo </a>
-    <ul>
-      <li><a href="categoria.php"> Categorias </a></li>
-      <li><a href="productos.php"> Productos </a></li>
-      
+        
     </ul>
   </li>
 
@@ -46,7 +31,57 @@
 </div>
 <!--CONTENIDO AQUI-->
  <form name="form1" method="post" action="">
-      <P>AQUI SE COLOCARA EL CONTENIDO</P>      </form>
+   
+      <?php
+      include "libchart/classes/libchart.php";
+require_once('../Connections/tienda.php'); 
+$call_p = "{call stats_cupones( ?, ? )}";
+$cupon_canjed=0;
+$cupon_send=0;
+$cupon_no_cangeado=($cupon_send-$cupon_canjed);
+   $parametros = array( 
+                 array($cupon_send, SQLSRV_PARAM_OUT),
+                 array($cupon_canjed, SQLSRV_PARAM_OUT)
+               );
+
+
+$ejecuta_call_p=sqlsrv_query( $conn, $call_p, $parametros); 
+
+$cupon_no_cangeado=($cupon_send-$cupon_canjed);
+  $chart = new PieChart();
+
+  $dataSet = new XYDataSet();
+  $dataSet->addPoint(new Point("CUPONES CANJEADOS ".$cupon_canjed, $cupon_canjed));
+ 
+    $dataSet->addPoint(new Point("CUPONES SIN CANJEAR ".$cupon_no_cangeado, $cupon_no_cangeado));
+   
+  $chart->setDataSet($dataSet);
+
+  $chart->setTitle("ESTADISTICA DE CUPONES, ENVIADOS".$cupon_send);
+  $chart->render("stats_cupones.png");
+  echo "<IMG SRC='stats_cupones.png'>";
+/////////////////////////////////////////////////////////////////////////////////////////////
+  $consulta=sqlsrv_query($conn,"Select Top 5 c.id_producto,p.nombre,  sum(c.cantidad) AS ventas 
+from   compra as c, producto as p where p.id_producto = c.id_producto
+Group by c.id_producto,p.nombre ORDER BY ventas DESC");
+  $i=0;
+
+  $chart = new VerticalBarChart(500, 250);
+   $dataSet = new XYDataSet();
+  while($row=sqlsrv_fetch_array($consulta))
+  {
+
+ $dataSet->addPoint(new Point($row['nombre'], $row['ventas']));
+ 
+ 
+
+  $i=$i+1;
+}
+ $chart->setDataSet($dataSet);
+  $chart->setTitle("PRODUCTOS MAS RENTABLES");
+ $chart->render("demo1.png");
+  echo "<IMG SRC='demo1.png'>";
+      ?> </form>
 </div>
 </div>
 </form>
